@@ -631,7 +631,7 @@ class Array(T)
   # a[6..10]? # => []
   # a[6..]?   # => []
   # ```
-  def []?(range : Range) : Array(T)?
+  def []?(range : Range) : Array(T)
     self[*Indexable.range_to_index_and_count(range, size) || return Array(T).new]?
   end
 
@@ -656,7 +656,7 @@ class Array(T)
   end
 
   # Like `#[](Int, Int)` but returns `[]` if the *start* index is out of range.
-  def []?(start : Int, count : Int) : Array(T)?
+  def []?(start : Int, count : Int) : Array(T)
     start, count = normalize_start_and_count(start, count) { return Array(T).new }
     return Array(T).new if count == 0
 
