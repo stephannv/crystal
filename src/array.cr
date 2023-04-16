@@ -624,15 +624,15 @@ class Array(T)
     self[*Indexable.range_to_index_and_count(range, size) || raise IndexError.new]
   end
 
-  # Like `#[](Range)`, but returns `nil` if `range.begin` is out of range.
+  # Like `#[](Range)`, but returns `[]` if `range.begin` is out of range.
   #
   # ```
   # a = ["a", "b", "c", "d", "e"]
-  # a[6..10]? # => nil
-  # a[6..]?   # => nil
+  # a[6..10]? # => []
+  # a[6..]?   # => []
   # ```
   def []?(range : Range) : Array(T)?
-    self[*Indexable.range_to_index_and_count(range, size) || return nil]?
+    self[*Indexable.range_to_index_and_count(range, size) || return Array(T).new]?
   end
 
   # Returns count or less (if there aren't enough) elements starting at the
@@ -655,9 +655,9 @@ class Array(T)
     self[start, count]? || raise IndexError.new
   end
 
-  # Like `#[](Int, Int)` but returns `nil` if the *start* index is out of range.
+  # Like `#[](Int, Int)` but returns `[]` if the *start* index is out of range.
   def []?(start : Int, count : Int) : Array(T)?
-    start, count = normalize_start_and_count(start, count) { return nil }
+    start, count = normalize_start_and_count(start, count) { return Array(T).new }
     return Array(T).new if count == 0
 
     Array(T).build(count) do |buffer|
